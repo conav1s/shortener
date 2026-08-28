@@ -21,11 +21,16 @@ RUN groupadd --system app && useradd --system --gid app --create-home app
 
 WORKDIR /app
 COPY --from=builder --chown=app:app /app /app
+COPY --chown=app:app entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+RUN mkdir -p /app/staticfiles && chown app:app /app/staticfiles
+
 ENV PATH="/app/.venv/bin:$PATH"
 
 USER app
 EXPOSE 8000
 
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["gunicorn", "shortener.config.asgi:application", \
      "--worker-class", "uvicorn.workers.UvicornWorker", \
      "--bind", "0.0.0.0:8000", "--workers", "2"]
