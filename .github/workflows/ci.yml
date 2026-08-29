@@ -44,6 +44,10 @@ jobs:
         run: uv run ruff check .
 
       - name: Run mypy
+        env:
+          SECRET_KEY: test-secret-key-for-ci
+          DEBUG: "False"
+          DATABASE_URL: postgres://shortener:testpassword@localhost:5432/shortener
         run: uv run mypy
 
       - name: Run tests
