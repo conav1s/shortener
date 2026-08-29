@@ -6,6 +6,7 @@ from . import views
 app_name = "links"
 
 urlpatterns = [
+    path("", views.index, name="index"),
     path("api/links", views.create_link, name="create"),
     path("preview", views.preview_link, name="preview"),
     path("<str:code>", views.redirect_to_original, name="redirect"),

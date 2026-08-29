@@ -3,7 +3,7 @@ import json
 import httpx
 
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseGone, JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -65,3 +65,25 @@ async def preview_link(request: HttpRequest) -> HttpResponse:
         return JsonResponse({"error": "Could not fetch the target page"}, status=502)
 
     return JsonResponse(data)
+
+
+def index(request: HttpRequest) -> HttpResponse:
+    short_url, error = None, None
+
+    if request.method == "POST":
+        original_url = request.POST.get("original_url", "")
+        try:
+            link = services.create_link(original_url)
+            short_url = request.build_absolute_uri(f"/{link.short_code}")
+        except InvalidURLError:
+            error = "Perhaps, it seems invalid link"
+
+    return render(
+        request=request,
+        template_name="links/index.html",
+        context=
+            {
+                "short_url": short_url,
+                "error": error
+            }
+    )

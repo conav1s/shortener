@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Сокращатель ссылок</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        h1 { font-size: 1.8rem; }
+        form { display: flex; gap: 8px; margin: 24px 0; }
+        input[type="url"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+        .result {
+            padding: 16px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            word-break: break-all;
+        }
+        .error { color: #dc2626; }
+    </style>
+</head>
+<body>
+    <h1>Сокращатель ссылок</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="url" name="original_url" placeholder="https://example.com" required>
+        <button type="submit">Сократить</button>
+    </form>
+
+    {% if short_url %}
+        <div class="result">
+            Готово: <a href="{{ short_url }}">{{ short_url }}</a>
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+</body>
+</html>
