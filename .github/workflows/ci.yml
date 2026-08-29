@@ -54,3 +54,20 @@ jobs:
       - name: Run tests
         run: uv run pytest
 
+  deploy:
+    needs: test
+    runs-on: ubuntu-22.04
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Deplot to VPS over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/shortener
+            git pull origin main
+            docker compose up -d --build
+            docker image prune -f
