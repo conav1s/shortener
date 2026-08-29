@@ -1,12 +1,12 @@
 import json
 
 import pytest
-from pytest_mock import MockerFixture
 from django.test import Client
 from django.urls import reverse
+from pytest_mock import MockerFixture
 
-from ..models import Link
 from .. import services
+from ..models import Link
 
 
 @pytest.mark.django_db

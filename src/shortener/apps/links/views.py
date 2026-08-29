@@ -1,22 +1,21 @@
 import json
 
 import httpx
-
-from django.urls import reverse
-from django.shortcuts import redirect, render
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseGone, JsonResponse
-from django.views.decorators.http import require_POST
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from . import services
-from .exceptions import InvalidURLError, CodeGenerationError, LinkNotFoundError, LinkExpiredError
+from .exceptions import CodeGenerationError, InvalidURLError, LinkExpiredError, LinkNotFoundError
 
 
 def redirect_to_original(request: HttpRequest, code: str) -> HttpResponse:
     try:
         target = services.visit_link(code)
     except LinkNotFoundError:
-        raise Http404("No such link")
+        raise Http404("No such link") from None
     except LinkExpiredError:
         return HttpResponseGone("This link has expired")
 

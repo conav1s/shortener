@@ -1,9 +1,9 @@
 import pytest
 from pytest_mock import MockerFixture
 
-from ..services import create_link, preview_link
-from ..models import Link
 from ..exceptions import InvalidURLError, LinkNotFoundError
+from ..models import Link
+from ..services import create_link, preview_link
 
 
 @pytest.mark.django_db

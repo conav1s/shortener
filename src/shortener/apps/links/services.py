@@ -2,16 +2,14 @@ import secrets
 import string
 
 import httpx
-
-from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.db import IntegrityError
 from django.db.models import F
+from django.utils import timezone
 
-from .exceptions import InvalidURLError, CodeGenerationError, LinkNotFoundError, LinkExpiredError
+from .exceptions import CodeGenerationError, InvalidURLError, LinkExpiredError, LinkNotFoundError
 from .models import Link
-
 
 ALPHABET = string.ascii_letters + string.digits
 CODE_LENGTH = 7
