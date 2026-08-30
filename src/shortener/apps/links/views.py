@@ -75,7 +75,7 @@ def index(request: HttpRequest) -> HttpResponse:
             link = services.create_link(original_url)
             short_url = request.build_absolute_uri(f"/{link.short_code}")
         except InvalidURLError:
-            error = "Perhaps, it seems invalid link"
+            error = "It seems an invalid link"
 
     return render(
         request=request,

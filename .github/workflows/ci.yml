@@ -12,7 +12,7 @@ jobs:
 
     env:
       SECRET_KEY: test-secret-key-for-ci
-      DEBUG: False
+      DEBUG: "False"
       DATABASE_URL: postgres://shortener:testpassword@localhost:5432/shortener
 
     services:
@@ -60,7 +60,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-      - name: Deplot to VPS over SSH
+      - name: Deploy to VPS over SSH
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ vars.SSH_HOST }}
